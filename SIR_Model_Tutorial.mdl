@@ -1,0 +1,252 @@
+{UTF-8}
+quarantine trigger=
+	1000
+	~	people [100,3000,100]
+	~		|
+
+"quarantine allowance % of daily contacts"=
+	40
+	~	Dmnl [0,100,5]
+	~		|
+
+baseline contacts per day per infected person=
+	6
+	~	1/Day [2,20,2]
+	~		|
+
+contacts per day per infected person=
+	baseline contacts per day per infected person*quarantine rules
+	~	1/Day [1,12,1]
+	~		|
+
+quarantine rules=
+	MIN(1 / (1 + EXP(quarantine sharpness * (Infected Population - quarantine trigger)))\
+		 + "quarantine allowance % of daily contacts"/100 , 1)
+	~	Dmnl
+	~		|
+
+quarantine sharpness=
+	0.02
+	~	1/people [0.005,0.05,0.005]
+	~		|
+
+affected population=
+	Infected Population+Recovered Population
+	~	people
+	~		|
+
+dangerous contacts per day=
+	total contacts per day*fr susceptible
+	~	people/Day
+	~		|
+
+duration of infection=
+	2
+	~	Day [1,14,1]
+	~		|
+
+fr susceptible=
+	Susceptible Population/total population
+	~	Dmnl
+	~		|
+
+Infected Population= INTEG (
+	infections-recoveries,
+		2)
+	~	people
+	~		|
+
+infections=
+	dangerous contacts per day*infectivity
+	~	people/Day
+	~		|
+
+infectivity=
+	0.25
+	~	Dmnl [0.05,1,0.05]
+	~		|
+
+Recovered Population= INTEG (
+	recoveries,
+		0)
+	~	people
+	~		|
+
+recoveries=
+	Infected Population/duration of infection
+	~	people/Day
+	~		|
+
+Susceptible Population= INTEG (
+	-infections,
+		9998)
+	~	people
+	~		|
+
+total contacts per day=
+	contacts per day per infected person*Infected Population
+	~	people/Day
+	~		|
+
+total population=
+	Susceptible Population+affected population
+	~	people
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 60
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.1
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Stock and Flow Diagram
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,75,0
+10,1,Susceptible Population,443,388,72,50,3,3,0,56,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20|B|0-0-0,0,0,0,0,0,0
+10,2,Infected Population,874,380,76,51,3,3,0,56,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20|B|0-0-0,0,0,0,0,0,0
+10,3,Recovered Population,1339,383,77,49,3,3,0,56,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20|B|0-0-0,0,0,0,0,0,0
+1,4,6,1,100,0,0,22,0,192,0,-1--1--1,,1|(584,383)|
+1,5,6,2,4,0,0,22,0,192,0,-1--1--1,,1|(731,383)|
+11,6,0,659,383,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,7,infections,659,412,64,21,40,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+1,8,10,2,100,0,0,22,0,192,0,-1--1--1,,1|(1030,381)|
+1,9,10,3,4,0,0,22,0,192,0,-1--1--1,,1|(1192,381)|
+11,10,0,1116,381,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,recoveries,1116,412,61,23,40,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,12,total population,325,148,66,33,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,13,affected population,1118,139,61,36,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,14,infectivity,662,224,63,18,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,15,dangerous contacts per day,409,631,85,47,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,16,total contacts per day,674,603,71,41,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,17,duration of infection,1280,497,63,28,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,18,contacts per day per infected person,915,611,110,31,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+10,19,fr susceptible,126,618,67,38,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+1,20,1,12,1,0,0,0,0,192,0,-1--1--1,,1|(436,242)|
+1,21,14,6,1,0,0,0,0,192,0,-1--1--1,,1|(641,311)|
+1,22,2,13,1,0,0,0,0,192,0,-1--1--1,,1|(929,225)|
+1,23,3,13,1,0,0,0,0,192,0,-1--1--1,,1|(1285,214)|
+1,24,13,12,1,0,0,0,0,192,0,-1--1--1,,1|(707,101)|
+1,25,1,19,1,0,0,0,0,192,0,-1--1--1,,1|(208,461)|
+1,26,12,19,1,0,0,0,0,192,0,-1--1--1,,1|(162,295)|
+1,27,15,7,1,0,0,0,0,192,0,-1--1--1,,1|(546,497)|
+1,28,16,15,1,0,0,0,0,192,0,-1--1--1,,1|(579,634)|
+1,29,18,16,1,0,0,0,0,192,0,-1--1--1,,1|(790,654)|
+1,30,2,16,1,0,0,0,0,192,0,-1--1--1,,1|(771,477)|
+1,31,2,11,1,0,0,0,0,192,0,-1--1--1,,1|(1025,456)|
+1,32,17,11,1,0,0,0,0,192,0,-1--1--1,,1|(1164,489)|
+12,33,0,1938,359,427,271,8,15,0,40,1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+SIR_Graph
+12,34,0,1942,951,430,307,8,15,0,40,2,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+Infected Population,Graph
+1,35,19,15,1,0,0,0,0,192,0,-1--1--1,,1|(237,642)|
+10,36,quarantine rules,1222,613,71,38,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||255-0-0,0,0,0,0,0,0
+1,37,36,18,1,0,0,0,0,192,0,-1--1--1,,1|(1054,657)|
+1,38,2,36,1,0,0,0,0,192,0,-1--1--1,,1|(1003,539)|
+10,39,quarantine sharpness,970,782,72,30,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||255-0-0,0,0,0,0,0,0
+10,40,quarantine trigger,1175,779,66,28,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||255-0-0,0,0,0,0,0,0
+1,41,39,36,1,0,0,0,0,192,0,-1--1--1,,1|(1125,705)|
+1,42,40,36,1,0,0,0,0,192,0,-1--1--1,,1|(1223,729)|
+10,43,baseline contacts per day per infected person,702,780,122,32,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+1,44,43,18,1,0,0,0,0,192,0,-1--1--1,,1|(855,710)|
+10,45,"quarantine allowance % of daily contacts",1383,781,100,56,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Times New Roman|20||255-0-0,0,0,0,0,0,0
+1,46,45,36,1,0,0,0,0,192,0,-1--1--1,,1|(1374,697)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Policy Analysis
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,100,0
+12,1,0,330,158,81,97,8,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+baseline contacts per day per infected person,0,0,0
+12,2,0,329,303,80,65,0,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+quarantine sharpness,0,0,0
+12,3,0,330,421,80,65,0,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+quarantine trigger,0,0,0
+12,4,0,118,165,80,65,0,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+duration of infection,0,0,0
+12,5,0,120,289,78,67,8,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+infectivity,0,0,0
+12,6,0,774,236,335,216,8,15,0,0,1,0,0,0,0,0,0,0,0,0
+SIR_Graph
+12,7,0,1475,236,365,215,8,15,0,0,2,0,0,0,0,0,0,0,0,0
+Infected Population,Graph
+12,8,0,776,704,335,248,8,15,0,0,2,0,0,0,0,0,0,0,0,0
+quarantine rules,Graph
+12,9,0,328,561,82,69,8,79,0,40,0,0,0,0,0-0-0,0-0-0,Times New Roman|20||0-0-0,0,0,0,0,0,0
+"quarantine allowance % of daily contacts",0,0,0
+///---\\\
+:GRAPH SIR_Graph
+:TITLE SIR Graph
+:X-AXIS Time
+:SCALE
+:VAR Susceptible Population
+:UNITS S-People
+:Y-MIN 0
+:Y-MAX 10000
+:DATASET 
+:SCALE
+:VAR Infected Population
+:UNITS I-People
+:Y-MIN 0
+:Y-MAX 10000
+:DATASET 
+:SCALE
+:VAR Recovered Population
+:DATASET 
+:L<%^E!@
+1:Quarantine Slider.vdfx
+1:Quarantine 30%, Trigger 1000.vdfx
+1:Quarantine 50%, Trigger 1000.vdfx
+1:Quarantine 40%, Trigger 1000.vdfx
+1:Baseline.vdfx
+4:Time
+5:dangerous contacts per day
+9:Quarantine Slider
+19:75,0
+24:0
+25:60
+26:60
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Courier|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
