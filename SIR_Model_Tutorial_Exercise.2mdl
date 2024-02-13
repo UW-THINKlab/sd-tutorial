@@ -1,0 +1,157 @@
+{UTF-8}
+affected population  = A FUNCTION OF( )
+	~	
+	~		|
+
+baseline contacts per day per infected person  = A FUNCTION OF( )
+	~	
+	~		|
+
+contacts per day per infected person  = A FUNCTION OF( baseline contacts per day per infected person\
+		)
+	~	
+	~		|
+
+dangerous contacts per day  = A FUNCTION OF( fr susceptible,total contacts per day)
+	~	
+	~		|
+
+fr susceptible  = A FUNCTION OF( Susceptible Population,total population)
+	~	
+	~		|
+
+Infected Population  = A FUNCTION OF( infections)
+	~	
+	~		|
+
+infections  = A FUNCTION OF( dangerous contacts per day,infectivity)
+	~	
+	~		|
+
+infectivity  = A FUNCTION OF( )
+	~	
+	~		|
+
+"quarantine allowance % daily contacts"  = A FUNCTION OF( )
+	~	
+	~		|
+
+quarantine rules  = A FUNCTION OF( "quarantine allowance % daily contacts",quarantine sharpness\
+		,quarantine trigger)
+	~	
+	~		|
+
+quarantine sharpness  = A FUNCTION OF( )
+	~	
+	~		|
+
+quarantine trigger  = A FUNCTION OF( )
+	~	
+	~		|
+
+Susceptible Population  = A FUNCTION OF( -infections)
+	~	
+	~		|
+
+total contacts per day  = A FUNCTION OF( contacts per day per infected person,Infected Population\
+		)
+	~	
+	~		|
+
+total population  = A FUNCTION OF( affected population)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 60
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.01
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,100,0
+10,1,Susceptible Population,253,303,85,49,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,2,Infected Population,662,302,86,51,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,100,0,0,22,0,192,0,-1--1--1,,1|(393,302)|
+1,4,5,2,4,0,0,22,0,192,0,-1--1--1,,1|(518,302)|
+11,5,0,455,302,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,infections,455,330,45,20,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,infectivity,457,169,51,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,8,total population,242,95,47,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,9,affected population,982,94,47,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,10,fr susceptible,84,435,64,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,11,dangerous contacts per day,329,467,67,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,12,total contacts per day,572,471,69,25,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,13,contacts per day per infected person,811,466,87,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,14,baseline contacts per day per infected person,691,606,100,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,15,quarantine sharpness,961,595,47,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,16,quarantine rules,1082,470,47,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,17,quarantine trigger,1108,595,47,22,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,18,"quarantine allowance % daily contacts",1275,591,65,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,8,10,1,0,0,0,0,192,0,-1--1--1,,1|(140,228)|
+1,20,1,10,1,0,0,0,0,192,0,-1--1--1,,1|(150,364)|
+1,21,10,11,1,0,0,0,0,192,0,-1--1--1,,1|(199,474)|
+1,22,12,11,1,0,0,0,0,192,0,-1--1--1,,1|(453,481)|
+1,23,11,6,1,0,0,0,0,192,0,-1--1--1,,1|(367,376)|
+1,24,7,5,1,0,0,0,0,192,0,-1--1--1,,1|(438,238)|
+1,25,2,12,1,0,0,0,0,192,0,-1--1--1,,1|(572,396)|
+1,26,13,12,1,0,0,0,0,192,0,-1--1--1,,1|(680,486)|
+1,27,14,13,1,0,0,0,0,192,0,-1--1--1,,1|(771,534)|
+1,28,15,16,1,0,0,0,0,192,0,-1--1--1,,1|(1033,539)|
+1,29,17,16,1,0,0,0,0,192,0,-1--1--1,,1|(1119,537)|
+1,30,18,16,1,0,0,0,0,192,0,-1--1--1,,1|(1218,518)|
+1,31,9,8,1,0,0,0,0,192,0,-1--1--1,,1|(628,55)|
+///---\\\
+:L<%^E!@
+5:affected population
+19:100,0
+24:0
+25:0
+26:0
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Courier|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
